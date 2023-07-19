@@ -1,14 +1,19 @@
 import React, { useState } from "react";
 import { loginUser } from "../Api/api";
 import { setUserToken } from "../Auth/authLocalStorage";
+import { useNavigate, useOutletContext } from "react-router-dom";
 
 const Login = () => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-	const [error, setError] = useState("");
+	const [error, setError] = useState({});
+
+	const navigate = useNavigate();
+	const { setShouldRefresh } = useOutletContext();
 
 	const handleOnSubmit = async (e) => {
 		e.preventDefault();
+		setShouldRefresh(true);
 		const data = {
 			email,
 			password,
@@ -16,10 +21,15 @@ const Login = () => {
 		const loginResult = await loginUser(data);
 		if (loginResult.success) {
 			setUserToken(loginResult.token);
+			setEmail("");
+			setPassword("");
+			setError({});
+			navigate("/");
 		}
 		if (!loginResult.success) {
-			setError(loginResult.message);
+			setError(loginResult.error);
 		}
+		setShouldRefresh(false);
 	};
 	return (
 		<div>
@@ -41,6 +51,8 @@ const Login = () => {
 				<br />
 				<button>Submit</button>
 			</form>
+			{error.email && <p>{error.email}</p>}
+			{error.password && <p>{error.password}</p>}
 		</div>
 	);
 };

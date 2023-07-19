@@ -21,4 +21,17 @@ const loginUser = async (userData) => {
 	}
 };
 
-export { registerUser, loginUser };
+const validateUser = async (userToken) => {
+	try {
+		const response = await axios.get(`${baseUrl}/users/validate`, {
+			headers: {
+				Authorization: `Bearer ${userToken}`,
+			},
+		});
+		return response.data;
+	} catch (error) {
+		return error.response.data;
+	}
+};
+
+export { registerUser, loginUser, validateUser };

@@ -8,4 +8,9 @@ const getUserToken = () => {
 	return JSON.parse(localStorage.getItem(tokenHeaderKey));
 };
 
-export { setUserToken, getUserToken };
+const removeUserToken = () => {
+	localStorage.removeItem(tokenHeaderKey);
+	return true;
+};
+
+export { setUserToken, getUserToken, removeUserToken };
