@@ -4,6 +4,7 @@ import "./index.css";
 import App from "./App";
 import Register from "./Pages/Register";
 import Login from "./Pages/Login";
+import Home from "./Pages/Home";
 import reportWebVitals from "./reportWebVitals";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
@@ -12,6 +13,10 @@ const router = createBrowserRouter([
 		path: "/",
 		element: <App />,
 		children: [
+			{
+				index: true,
+				element: <Home />,
+			},
 			{
 				path: "register",
 				element: <Register />,
